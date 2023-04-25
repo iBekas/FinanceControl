@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FinanceControl</string>
+
+    <string name="cost">Расходы</string>
+    <string name="income">Доходы</string>
+
+</resources>
