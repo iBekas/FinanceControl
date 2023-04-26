@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import money.finance.control.presentation.composecomponents.AppTheme
 import money.finance.control.presentation.composecomponents.FinanceControlTheme
 import kotlin.math.PI
@@ -57,11 +56,6 @@ fun CircleDiagram(
 
     val mainColor = AppTheme.colors.background
     val subMainColor = AppTheme.colors.background
-    val tapTextColor = AppTheme.colors.secondary
-
-    val maxPartSize = 7
-    val maxPartNameLength = 10
-
 
     Box(
         modifier = modifier,
@@ -148,31 +142,7 @@ fun CircleDiagram(
                     )
                     currentStartAngle += angleToDraw
                 }
-                var rotateAngle = currentStartAngle - angleToDraw / 2f - 90f
-                var factor = 1f
-                if (rotateAngle > 90f) {
-                    rotateAngle = (rotateAngle + 180).mod(360f)
-                    factor = -0.92f
-                }
 
-                val percentage = (pieChartInput.value / totalValue.toFloat() * 100).toInt()
-
-                drawContext.canvas.nativeCanvas.apply {
-                    if (percentage > 3) {
-                        rotate(rotateAngle) {
-                            drawText(
-                                "$percentage %",
-                                circleCenter.x,
-                                circleCenter.y + (radius - (radius - innerRadius) / 2f) * factor,
-                                Paint().apply {
-                                    textSize = 18.sp.toPx()
-                                    textAlign = Paint.Align.CENTER
-                                    color = mainColor.toArgb()
-                                }
-                            )
-                        }
-                    }
-                }
                 if (pieChartInput.isTapped) {
                     val tabRotation = currentStartAngle - angleToDraw - 90f
                     rotate(tabRotation) {
@@ -191,29 +161,6 @@ fun CircleDiagram(
                             cornerRadius = CornerRadius(15f, 15f)
                         )
                     }
-                    if (inputList.size < maxPartSize)
-                        rotate(rotateAngle) {
-                            drawContext.canvas.nativeCanvas.apply {
-                                val correctDescription = if (pieChartInput.description.length > maxPartNameLength)
-                                    pieChartInput.description.removeRange(
-                                        9,
-                                        pieChartInput.description.length
-                                    ) + "..."
-                                else pieChartInput.description
-
-                                drawText(
-                                    correctDescription,
-                                    circleCenter.x,
-                                    circleCenter.y + radius * 1.25f * factor,
-                                    Paint().apply {
-                                        textSize = 22.sp.toPx()
-                                        textAlign = Paint.Align.CENTER
-                                        color = tapTextColor.toArgb()
-                                        isFakeBoldText = true
-                                    }
-                                )
-                            }
-                        }
                 }
             }
 
@@ -257,7 +204,7 @@ fun CircleDiagram(
     }
 }
 
-@Preview(name = "CircleDiagram", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "CircleDiagram", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Composable
 private fun CircleDiagramPreview() {
 

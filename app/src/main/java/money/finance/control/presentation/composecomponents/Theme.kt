@@ -45,4 +45,5 @@ fun FinanceControlTheme(
         LocalAppDimens provides dimensions,
         content = content,
     )
+
 }

@@ -1,4 +1,4 @@
-package money.finance.control.presentation.screens.rate
+package money.finance.control.presentation.screens.operations
 
 import android.content.res.Configuration
 import androidx.compose.animation.core.animateFloatAsState
@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -49,7 +50,8 @@ fun BottomNavigation(
 
     Box(
         modifier
-            .fillMaxSize()
+            .height(120.dp)
+            .fillMaxWidth()
             .padding(bottom = AppTheme.dimens.contentMargin),
         contentAlignment = Alignment.BottomCenter
     ) {
@@ -140,7 +142,8 @@ fun BottomNavigation(
         FloatingActionButton(
             modifier = Modifier
                 .scale(1.25f)
-                .padding(44.dp)
+                .padding(22.dp)
+                .offset(y = (-20).dp)
                 .scale(scaleAdd.value)
                 .pointerInteropFilter { motionEvent ->
                     motionEvent.track(
