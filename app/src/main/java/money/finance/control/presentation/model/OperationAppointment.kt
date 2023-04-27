@@ -1,7 +1,7 @@
 package money.finance.control.presentation.model
 
 
-data class OperationType(
+data class OperationAppointment(
     val name: String,
     val color: Int
 )

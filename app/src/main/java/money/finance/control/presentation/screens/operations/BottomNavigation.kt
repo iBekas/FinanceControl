@@ -37,16 +37,20 @@ import money.finance.control.R
 import money.finance.control.presentation.composecomponents.AppTheme
 import money.finance.control.presentation.composecomponents.FinanceControlTheme
 import money.finance.control.presentation.composecomponents.trackclick.track
+import money.finance.control.presentation.model.OperationType
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BottomNavigation(
     modifier: Modifier = Modifier,
-    onCostCLick: () -> Unit,
-    onIncomeCLick: () -> Unit,
-    onAddCLick: () -> Unit
+    selectedOperationType: OperationType,
+    onEvent: (OperationsEvent) -> Unit,
+    onAddCLick: () -> Unit,
 ) {
+
+    val selectedIncome = remember { mutableStateOf(selectedOperationType == OperationType.INCOME) }
+    val selectedCost = remember { mutableStateOf(selectedOperationType == OperationType.COST) }
 
     Box(
         modifier
@@ -69,22 +73,28 @@ fun BottomNavigation(
                 .padding(horizontal = 40.dp)
         ) {
 
-            val selectedCost = remember { mutableStateOf(false) }
-            val scaleCost = animateFloatAsState(if (selectedCost.value) 0.9f else 1f)
+            val selectedCostPress = remember { mutableStateOf(false) }
+            val scaleCostPress = animateFloatAsState(if (selectedCostPress.value) 0.9f else 1f)
 
-            val selectedIncome = remember { mutableStateOf(false) }
-            val scaleIncome = animateFloatAsState(if (selectedIncome.value) 0.9f else 1f)
+            val selectedIncomePress = remember { mutableStateOf(false) }
+            val scaleIncomePress = animateFloatAsState(if (selectedIncomePress.value) 0.9f else 1f)
 
+
+            //Расходы
             IconButton(
                 onClick = {},
                 modifier = Modifier
                     .width(60.dp)
-                    .scale(scaleCost.value)
+                    .scale(scaleCostPress.value)
                     .pointerInteropFilter { motionEvent ->
                         motionEvent
                             .track(
-                                onSelected = { isSelected -> selectedCost.value = isSelected },
-                                onCLick = { onCostCLick.invoke() }
+                                onSelected = { isSelected -> selectedCostPress.value = isSelected },
+                                onCLick = {
+                                    selectedCost.value = true
+                                    selectedIncome.value = false
+                                    onEvent.invoke(OperationsEvent.SetSelectedOperationType(OperationType.COST))
+                                }
                             )
                         true
                     }) {
@@ -94,26 +104,35 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_cost),
                         contentDescription = "cost",
-                        tint = AppTheme.colors.primary
+                        tint =
+                        if (selectedCost.value) AppTheme.colors.primaryVariant
+                        else AppTheme.colors.primary
                     )
                     Text(
                         text = stringResource(id = R.string.cost),
                         textAlign = TextAlign.Center,
                         style = AppTheme.typography.body2,
-                        color = AppTheme.colors.primary
+                        color =
+                        if (selectedCost.value) AppTheme.colors.primaryVariant
+                        else AppTheme.colors.primary
                     )
                 }
             }
 
+            //Доходы
             IconButton(
-                onClick = { onIncomeCLick.invoke() },
+                onClick = {},
                 modifier = Modifier
                     .width(60.dp)
-                    .scale(scaleIncome.value)
+                    .scale(scaleIncomePress.value)
                     .pointerInteropFilter { motionEvent ->
                         motionEvent.track(
-                            onSelected = { isSelected -> selectedIncome.value = isSelected },
-                            onCLick = { onIncomeCLick.invoke() }
+                            onSelected = { isSelected -> selectedIncomePress.value = isSelected },
+                            onCLick = {
+                                selectedIncome.value = true
+                                selectedCost.value = false
+                                onEvent.invoke(OperationsEvent.SetSelectedOperationType(OperationType.INCOME))
+                            }
                         )
                         true
                     }) {
@@ -123,13 +142,17 @@ fun BottomNavigation(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_income),
                         contentDescription = stringResource(id = R.string.cost),
-                        tint = AppTheme.colors.primary
+                        tint =
+                        if (selectedIncome.value) AppTheme.colors.primaryVariant
+                        else AppTheme.colors.primary
                     )
                     Text(
                         text = stringResource(id = R.string.income),
                         textAlign = TextAlign.Center,
                         style = AppTheme.typography.body2,
-                        color = AppTheme.colors.primary
+                        color =
+                        if (selectedIncome.value) AppTheme.colors.primaryVariant
+                        else AppTheme.colors.primary
                     )
                 }
             }
@@ -139,6 +162,8 @@ fun BottomNavigation(
         val selectedAdd = remember { mutableStateOf(false) }
         val scaleAdd = animateFloatAsState(if (selectedAdd.value) 0.9f else 1f)
 
+
+        //Добавить
         FloatingActionButton(
             modifier = Modifier
                 .scale(1.25f)
@@ -173,6 +198,6 @@ fun BottomNavigation(
 @Composable
 private fun BottomNavigationPreview() {
     FinanceControlTheme {
-        BottomNavigation(Modifier, {}, {}, {})
+        BottomNavigation(Modifier, selectedOperationType = OperationType.COST, {}, {})
     }
 }

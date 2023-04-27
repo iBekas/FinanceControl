@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import money.finance.control.data.AccountOperationRepository
+import money.finance.control.presentation.model.OperationType
 import javax.inject.Inject
 
 
@@ -25,6 +26,10 @@ class OperationsViewModel @Inject constructor(
             _viewState.value = value
         }
 
+    init {
+        getOperations()
+    }
+
     fun submitUIEvent(event: OperationsEvent) {
         handleUIEvent(event)
     }
@@ -32,6 +37,7 @@ class OperationsViewModel @Inject constructor(
     private fun handleUIEvent(event: OperationsEvent) {
         when (event) {
 
+            is OperationsEvent.SetSelectedOperationType -> setSelectedOperationType(event.selectedOperationType)
             OperationsEvent.GetOperations -> getOperations()
 
         }
@@ -41,11 +47,19 @@ class OperationsViewModel @Inject constructor(
     private fun getOperations() {
         viewModelScope.launch {
             viewState = viewState.copy(isLoading = true)
-            delay(1500)
             viewState = viewState.copy(
                 operations = accountOperationRepository.getAccountOperation(),
                 isLoading = false
             )
+        }
+    }
+
+    private fun setSelectedOperationType(selectedOperationType: OperationType) {
+        val operations = viewState.operations
+        viewModelScope.launch {
+            viewState = viewState.copy(operations = emptyList())
+            delay(10)
+            viewState = viewState.copy(operations = operations, selectedOperationType = selectedOperationType)
         }
     }
 

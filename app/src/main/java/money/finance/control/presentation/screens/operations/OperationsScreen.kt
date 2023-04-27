@@ -21,6 +21,7 @@ import money.finance.control.presentation.composecomponents.FinanceControlTheme
 import money.finance.control.presentation.composecomponents.diagram.CircleDiagram
 import money.finance.control.presentation.composecomponents.diagram.CircleDiagramPart
 import money.finance.control.presentation.model.AccountOperation
+import money.finance.control.presentation.model.OperationAppointment
 import money.finance.control.presentation.model.OperationType
 import java.util.Random
 import android.graphics.Color as ClassicColor
@@ -33,12 +34,7 @@ fun OperationsScreen(
     onSubmitEvent: (OperationsEvent) -> Unit
 ) {
 
-    onSubmitEvent.invoke(OperationsEvent.GetOperations)
-
-    val items = state.operations
-    var totalSumma = 0f
-
-    items.forEach { totalSumma += it.score }
+    val items = state.filteredOperations
 
     Column(modifier = Modifier.background(AppTheme.colors.background)) {
 
@@ -54,7 +50,7 @@ fun OperationsScreen(
                 innerRadius = 200f,
                 transparentWidth = 30f,
                 input = items.toDiagramPart(),
-                centerText = totalSumma.toString()
+                centerText = state.totalSumma().toString()
             )
         else {
             CircleDiagram(
@@ -71,7 +67,7 @@ fun OperationsScreen(
                         isTapped = false
                     )
                 ),
-                centerText = totalSumma.toString()
+                centerText = state.totalSumma().toString()
             )
         }
 
@@ -84,12 +80,15 @@ fun OperationsScreen(
             items(
                 items = items,
                 itemContent = { item ->
-                    OperationItem(operation = item, totalSumma = totalSumma.toInt())
+                    OperationItem(operation = item, totalSumma = state.totalSumma().toInt())
                 }
             )
         }
 
-        BottomNavigation(onCostCLick = {}, onIncomeCLick = {}, onAddCLick = {})
+        BottomNavigation(
+            selectedOperationType = state.selectedOperationType,
+            onEvent = { event -> onSubmitEvent.invoke(event)},
+            onAddCLick = {})
     }
 
 }
@@ -116,26 +115,42 @@ private fun OperationsScreenPreview() {
                 operations = listOf(
                     AccountOperation(
                         id = 1L,
-                        isIncome = false,
+                        operationType = OperationType.COST,
                         description = "Первый",
-                        type = OperationType(name = "Еда", color = 0),
+                        appointmentType = OperationAppointment(name = "Еда", color = 0),
                         score = 200.0F,
                         currency = " р."
                     ),
                     AccountOperation(
                         id = 2L,
-                        isIncome = false,
+                        operationType = OperationType.COST,
                         description = "Второй",
-                        type = OperationType(name = "Лекарства", color = 0),
+                        appointmentType = OperationAppointment(name = "Лекарства", color = 0),
                         score = 300.0F,
                         currency = " р."
                     ),
                     AccountOperation(
                         id = 3L,
-                        isIncome = false,
+                        operationType = OperationType.COST,
                         description = "Третий",
-                        type = OperationType(name = "Спорт", color = 0),
+                        appointmentType = OperationAppointment(name = "Спорт", color = 0),
                         score = 150.0F,
+                        currency = " р."
+                    ),
+                    AccountOperation(
+                        id = 4L,
+                        operationType = OperationType.INCOME,
+                        description = "Четверты",
+                        appointmentType = OperationAppointment(name = "Зарплата", color = 0),
+                        score = 700.0F,
+                        currency = " р."
+                    ),
+                    AccountOperation(
+                        id = 5L,
+                        operationType = OperationType.INCOME,
+                        description = "Пятый",
+                        appointmentType = OperationAppointment(name = "Кэшбек", color = 0),
+                        score = 450.0F,
                         currency = " р."
                     ),
                 ),

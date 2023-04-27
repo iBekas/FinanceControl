@@ -2,18 +2,23 @@ package money.finance.control.presentation.model
 
 /**
  * @property id ID операции
- * @property isIncome является ли доходом
+ * @property operationType расходы или доходы
  * @property score сумма операции
  * @property currency валюта операции
  * @property description описание операции
- * @property type тип операции
+ * @property appointmentType назначение операции (Еда, Транспорт и т.п.)
  */
 
 data class AccountOperation(
     val id: Long,
-    val isIncome: Boolean,
+    val operationType: OperationType,
     val score: Float,
     val currency: String,
     val description: String,
-    val type: OperationType
+    val appointmentType: OperationAppointment
 )
+
+enum class OperationType {
+    COST,
+    INCOME
+}

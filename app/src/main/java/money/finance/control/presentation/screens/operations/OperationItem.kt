@@ -19,55 +19,62 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import money.finance.control.presentation.composecomponents.AppTheme
 import money.finance.control.presentation.composecomponents.FinanceControlTheme
+import money.finance.control.presentation.composecomponents.animationbox.AnimationBox
 import money.finance.control.presentation.model.AccountOperation
+import money.finance.control.presentation.model.OperationAppointment
 import money.finance.control.presentation.model.OperationType
+import java.text.DecimalFormat
 
 
 @Composable
 fun OperationItem(modifier: Modifier = Modifier, operation: AccountOperation, totalSumma: Int) {
 
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                start = AppTheme.dimens.sideMargin,
-                end = AppTheme.dimens.sideMargin,
-                bottom = AppTheme.dimens.sideMargin,
-                top = 2.dp
-            )
-            .shadow(
-                elevation = AppTheme.dimens.halfContentMargin,
-                shape = RoundedCornerShape(AppTheme.dimens.cornerRadius)
-            )
-            .clip(RoundedCornerShape(AppTheme.dimens.cornerRadius)),
-        elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.dimens.halfContentMargin)
-    ) {
+    val formatter = DecimalFormat("#.#")
 
-        Row(
-            modifier = Modifier
-                .background(color = AppTheme.colors.background)
-                .padding(AppTheme.dimens.contentMargin),
-            verticalAlignment = Alignment.CenterVertically
+    AnimationBox {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(
+                    start = AppTheme.dimens.sideMargin,
+                    end = AppTheme.dimens.sideMargin,
+                    bottom = AppTheme.dimens.sideMargin,
+                    top = 2.dp
+                )
+                .shadow(
+                    elevation = AppTheme.dimens.halfContentMargin,
+                    shape = RoundedCornerShape(AppTheme.dimens.cornerRadius)
+                )
+                .clip(RoundedCornerShape(AppTheme.dimens.cornerRadius)),
+            elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.dimens.halfContentMargin)
         ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = operation.type.name,
-                style = AppTheme.typography.body1
-            )
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "${(totalSumma/operation.score).toInt()}%",
-                style = AppTheme.typography.body1,
-                textAlign = TextAlign.End
-            )
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "${operation.score.toInt()}${operation.currency}",
-                style = AppTheme.typography.body1,
-                textAlign = TextAlign.End
-            )
-        }
 
+            Row(
+                modifier = Modifier
+                    .background(color = AppTheme.colors.background)
+                    .padding(AppTheme.dimens.contentMargin),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = operation.appointmentType.name,
+                    style = AppTheme.typography.body1
+                )
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = "${formatter.format(operation.score*100/totalSumma)}%",
+                    style = AppTheme.typography.body1,
+                    textAlign = TextAlign.End
+                )
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = "${operation.score.toInt()}${operation.currency}",
+                    style = AppTheme.typography.body1,
+                    textAlign = TextAlign.End
+                )
+            }
+
+        }
     }
 
 }
@@ -79,9 +86,9 @@ private fun OperationItemPreview() {
         OperationItem(
             operation = AccountOperation(
                 id = 1L,
-                isIncome = false,
+                operationType = OperationType.COST,
                 description = "Первый",
-                type = OperationType(name = "Еда", color = 0),
+                appointmentType = OperationAppointment(name = "Еда", color = 0),
                 score = 200.0F,
                 currency = " р."
             ),
