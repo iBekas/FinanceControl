@@ -1,6 +1,7 @@
 package money.finance.control.presentation.screens.operations
 
 import android.content.res.Configuration
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,31 +11,41 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import money.finance.control.presentation.composecomponents.AppTheme
 import money.finance.control.presentation.composecomponents.FinanceControlTheme
 import money.finance.control.presentation.composecomponents.animationbox.AnimationBox
+import money.finance.control.presentation.composecomponents.trackclick.track
 import money.finance.control.presentation.model.AccountOperation
 import money.finance.control.presentation.model.OperationAppointment
 import money.finance.control.presentation.model.OperationType
 import java.text.DecimalFormat
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OperationItem(modifier: Modifier = Modifier, operation: AccountOperation, totalSumma: Int) {
 
     val formatter = DecimalFormat("#.#")
+    val selectedCard = remember { mutableStateOf(false) }
+    val scaleCard = animateFloatAsState(if (selectedCard.value) 0.9f else 1f)
 
     AnimationBox {
         Card(
             modifier = modifier
                 .fillMaxWidth()
+                .scale(scaleCard.value)
                 .padding(
                     start = AppTheme.dimens.sideMargin,
                     end = AppTheme.dimens.sideMargin,
@@ -45,7 +56,15 @@ fun OperationItem(modifier: Modifier = Modifier, operation: AccountOperation, to
                     elevation = AppTheme.dimens.halfContentMargin,
                     shape = RoundedCornerShape(AppTheme.dimens.cornerRadius)
                 )
-                .clip(RoundedCornerShape(AppTheme.dimens.cornerRadius)),
+                .clip(RoundedCornerShape(AppTheme.dimens.cornerRadius))
+                .pointerInteropFilter { motionEvent ->
+                    motionEvent
+                        .track(
+                            onSelected = { isSelected -> selectedCard.value = isSelected },
+                            onCLick = {}
+                        )
+                    true
+                },
             elevation = CardDefaults.cardElevation(defaultElevation = AppTheme.dimens.halfContentMargin)
         ) {
 

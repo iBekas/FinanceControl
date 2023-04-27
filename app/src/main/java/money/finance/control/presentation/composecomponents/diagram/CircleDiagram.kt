@@ -197,7 +197,7 @@ fun CircleDiagram(
             modifier = Modifier
                 .width(Dp(innerRadius / 1.5f))
                 .padding(25.dp),
-            style = AppTheme.typography.subtitle1,
+            style = AppTheme.typography.h6,
             textAlign = TextAlign.Center,
         )
 
