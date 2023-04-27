@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android' version '2.43.2' apply false
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -51,7 +51,11 @@ android {
         javacOptions {
             option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
+
+        correctErrorTypes true
+
     }
+
 }
 
 dependencies {

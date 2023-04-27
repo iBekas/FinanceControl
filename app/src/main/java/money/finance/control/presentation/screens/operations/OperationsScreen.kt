@@ -46,15 +46,34 @@ fun OperationsScreen(
             LocalConfiguration.current.screenHeightDp.dp / (2.8f) // 35% экрана
 
 
-        CircleDiagram(
-            modifier = Modifier
-                .heightIn(max = diagramMaxHeight),
-            radius = 300f,
-            innerRadius = 200f,
-            transparentWidth = 30f,
-            input = items.toDiagramPart(),
-            centerText = totalSumma.toString()
-        )
+        if (items.isNotEmpty())
+            CircleDiagram(
+                modifier = Modifier
+                    .heightIn(max = diagramMaxHeight),
+                radius = 300f,
+                innerRadius = 200f,
+                transparentWidth = 30f,
+                input = items.toDiagramPart(),
+                centerText = totalSumma.toString()
+            )
+        else {
+            CircleDiagram(
+                modifier = Modifier
+                    .heightIn(max = diagramMaxHeight),
+                radius = 300f,
+                innerRadius = 200f,
+                transparentWidth = 30f,
+                input = listOf(
+                    CircleDiagramPart(
+                        color = AppTheme.colors.darkGray,
+                        value = 100,
+                        description = "",
+                        isTapped = false
+                    )
+                ),
+                centerText = totalSumma.toString()
+            )
+        }
 
         LazyColumn(
             modifier = Modifier
@@ -94,33 +113,33 @@ private fun OperationsScreenPreview() {
     FinanceControlTheme {
         OperationsScreen(navController = rememberNavController(),
             state = OperationsViewState(
-            operations = listOf(
-                AccountOperation(
-                    id = 1L,
-                    isIncome = false,
-                    description = "Первый",
-                    type = OperationType(name = "Еда", color = 0),
-                    score = 200.0F,
-                    currency = " р."
+                operations = listOf(
+                    AccountOperation(
+                        id = 1L,
+                        isIncome = false,
+                        description = "Первый",
+                        type = OperationType(name = "Еда", color = 0),
+                        score = 200.0F,
+                        currency = " р."
+                    ),
+                    AccountOperation(
+                        id = 2L,
+                        isIncome = false,
+                        description = "Второй",
+                        type = OperationType(name = "Лекарства", color = 0),
+                        score = 300.0F,
+                        currency = " р."
+                    ),
+                    AccountOperation(
+                        id = 3L,
+                        isIncome = false,
+                        description = "Третий",
+                        type = OperationType(name = "Спорт", color = 0),
+                        score = 150.0F,
+                        currency = " р."
+                    ),
                 ),
-                AccountOperation(
-                    id = 2L,
-                    isIncome = false,
-                    description = "Второй",
-                    type = OperationType(name = "Лекарства", color = 0),
-                    score = 300.0F,
-                    currency = " р."
-                ),
-                AccountOperation(
-                    id = 3L,
-                    isIncome = false,
-                    description = "Третий",
-                    type = OperationType(name = "Спорт", color = 0),
-                    score = 150.0F,
-                    currency = " р."
-                ),
-            ),
-            isLoading = false
-        ), onSubmitEvent = {})
+                isLoading = false
+            ), onSubmitEvent = {})
     }
 }
