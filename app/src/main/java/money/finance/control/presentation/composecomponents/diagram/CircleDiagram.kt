@@ -83,10 +83,11 @@ fun CircleDiagram(
                             }
 
                             if (centerClicked) {
-                                inputList = inputList.map {
-                                    it.copy(isTapped = !isCenterTapped)
-                                }
-                                isCenterTapped = !isCenterTapped
+                                //Пока ничего не делать
+//                                inputList = inputList.map {
+//                                    it.copy(isTapped = !isCenterTapped)
+//                                }
+//                                isCenterTapped = !isCenterTapped
                             } else {
                                 val anglePerValue = 360f / input.sumOf {
                                     it.value
@@ -96,9 +97,9 @@ fun CircleDiagram(
 
                                     currAngle += pieChartInput.value * anglePerValue
                                     if (tapAngleInDegrees < currAngle) {
-                                        val description = pieChartInput.description
+                                        val description = pieChartInput.id
                                         inputList = inputList.map {
-                                            if (description == it.description) {
+                                            if (description == it.id) {
                                                 if (!it.isTapped) {
                                                     onClickPart.invoke(it.id)
                                                 }
