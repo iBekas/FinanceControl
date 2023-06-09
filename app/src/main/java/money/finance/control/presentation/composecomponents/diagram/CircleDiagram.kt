@@ -41,7 +41,8 @@ fun CircleDiagram(
     innerRadius: Float = 250f,
     transparentWidth: Float = 70f,
     input: List<CircleDiagramPart>,
-    centerText: String = ""
+    centerText: String = "",
+    onClickPart: (Long) -> Unit
 ) {
     var circleCenter by remember {
         mutableStateOf(Offset.Zero)
@@ -98,6 +99,9 @@ fun CircleDiagram(
                                         val description = pieChartInput.description
                                         inputList = inputList.map {
                                             if (description == it.description) {
+                                                if (!it.isTapped) {
+                                                    onClickPart.invoke(it.id)
+                                                }
                                                 it.copy(isTapped = !it.isTapped)
                                             } else {
                                                 it.copy(isTapped = false)
@@ -212,18 +216,21 @@ private fun CircleDiagramPreview() {
 
         val parts = listOf(
             CircleDiagramPart(
+                id = 1L,
                 color = AppTheme.colors.secondary,
                 value = 40,
                 description = "Еда",
                 isTapped = false
             ),
             CircleDiagramPart(
+                id = 2L,
                 color = AppTheme.colors.secondaryVariant,
                 value = 30,
                 description = "Такси",
                 isTapped = false
             ),
             CircleDiagramPart(
+                id = 3L,
                 color = AppTheme.colors.darkGray,
                 value = 30,
                 description = "Лекарства",
@@ -234,7 +241,8 @@ private fun CircleDiagramPreview() {
         CircleDiagram(
             modifier = Modifier,
             input = parts,
-            centerText = "300 р."
+            centerText = "300 р.",
+            onClickPart = {}
         )
     }
 }

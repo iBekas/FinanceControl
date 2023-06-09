@@ -1,9 +1,9 @@
 package money.finance.control.data
 
-import money.finance.control.presentation.model.AccountOperation
+import money.finance.control.data.model.AccountOperationEntity
 
 
 interface AccountOperationRepository {
 
-    fun getAccountOperation(): List<AccountOperation>
+    fun getAccountOperation(): List<AccountOperationEntity>
 }

@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import money.finance.control.data.AccountOperationRepository
+import money.finance.control.presentation.model.Mapper
 import money.finance.control.presentation.model.OperationType
 import javax.inject.Inject
 
@@ -48,7 +49,7 @@ class OperationsViewModel @Inject constructor(
         viewModelScope.launch {
             viewState = viewState.copy(isLoading = true)
             viewState = viewState.copy(
-                operations = accountOperationRepository.getAccountOperation(),
+                operations = Mapper.transformToPresentation(accountOperationRepository.getAccountOperation()),
                 isLoading = false
             )
         }

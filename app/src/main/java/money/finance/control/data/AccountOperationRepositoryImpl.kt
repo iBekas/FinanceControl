@@ -1,54 +1,122 @@
 package money.finance.control.data
 
-import money.finance.control.presentation.model.AccountOperation
-import money.finance.control.presentation.model.OperationAppointment
-import money.finance.control.presentation.model.OperationType
+import money.finance.control.data.model.AccountOperationEntity
 import javax.inject.Inject
 
 
 class AccountOperationRepositoryImpl @Inject constructor() : AccountOperationRepository {
 
-    override fun getAccountOperation(): List<AccountOperation> {
+    override fun getAccountOperation(): List<AccountOperationEntity> {
         return listOf(
-            AccountOperation(
+            AccountOperationEntity(
                 id = 1L,
-                operationType = OperationType.COST,
+                operationType = "COST",
                 description = "Первый",
-                appointmentType = OperationAppointment(name = "Еда", color = 0),
+                appointmentName = "Еда",
                 score = 200.0F,
-                currency = " р."
+                currency = " р.",
+                iconId = 0,
+                color = 0,
             ),
-            AccountOperation(
+            AccountOperationEntity(
                 id = 2L,
-                operationType = OperationType.COST,
+                operationType = "COST",
                 description = "Второй",
-                appointmentType = OperationAppointment(name = "Лекарства", color = 0),
+                appointmentName = "Лекарства",
                 score = 300.0F,
-                currency = " р."
+                currency = " р.",
+                iconId = 0,
+                color = 0,
             ),
-            AccountOperation(
+            AccountOperationEntity(
                 id = 3L,
-                operationType = OperationType.COST,
+                operationType = "COST",
                 description = "Третий",
-                appointmentType = OperationAppointment(name = "Спорт", color = 0),
+                appointmentName = "Спорт",
                 score = 150.0F,
-                currency = " р."
+                currency = " р.",
+                iconId = 0,
+                color = 0,
             ),
-            AccountOperation(
+            AccountOperationEntity(
+                id = 6L,
+                operationType = "COST",
+                description = "Первый",
+                appointmentName = "Еда",
+                score = 200.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
+                id = 7L,
+                operationType = "COST",
+                description = "Второй",
+                appointmentName = "Лекарства",
+                score = 300.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
+                id = 8L,
+                operationType = "COST",
+                description = "Третий",
+                appointmentName = "Спорт",
+                score = 150.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
+                id = 9L,
+                operationType = "COST",
+                description = "Первый",
+                appointmentName = "Еда",
+                score = 200.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
+                id = 10L,
+                operationType = "COST",
+                description = "Второй",
+                appointmentName = "Лекарства",
+                score = 300.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
+                id = 11L,
+                operationType = "COST",
+                description = "Третий",
+                appointmentName = "Спорт",
+                score = 150.0F,
+                currency = " р.",
+                iconId = 0,
+                color = 0,
+            ),
+            AccountOperationEntity(
                 id = 4L,
-                operationType = OperationType.INCOME,
+                operationType = "INCOME",
                 description = "Четвертый",
-                appointmentType = OperationAppointment(name = "Зарплата", color = 0),
+                appointmentName = "Зарплата",
                 score = 700.0F,
-                currency = " р."
+                currency = " р.",
+                iconId = 0,
+                color = 0,
             ),
-            AccountOperation(
+            AccountOperationEntity(
                 id = 5L,
-                operationType = OperationType.INCOME,
+                operationType = "INCOME",
                 description = "Пятый",
-                appointmentType = OperationAppointment(name = "Кэшбек", color = 0),
+                appointmentName = "Кэшбек",
                 score = 350.0F,
-                currency = " р."
+                currency = " р.",
+                iconId = 0,
+                color = 0,
             ),
 
         )

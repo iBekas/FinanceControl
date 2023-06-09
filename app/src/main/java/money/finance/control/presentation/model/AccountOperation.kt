@@ -1,12 +1,16 @@
 package money.finance.control.presentation.model
 
+import androidx.compose.ui.graphics.Color
+
 /**
  * @property id ID операции
  * @property operationType расходы или доходы
  * @property score сумма операции
  * @property currency валюта операции
  * @property description описание операции
- * @property appointmentType назначение операции (Еда, Транспорт и т.п.)
+ * @property iconId id иконки
+ * @property color цвет иконки и диаграммы
+ * @property appointmentName название операции (Еда, Транспорт и т.п.)
  */
 
 data class AccountOperation(
@@ -15,7 +19,9 @@ data class AccountOperation(
     val score: Float,
     val currency: String,
     val description: String,
-    val appointmentType: OperationAppointment
+    val iconId: Int = 2131099652,
+    val color: Color,
+    val appointmentName: String
 )
 
 enum class OperationType {
